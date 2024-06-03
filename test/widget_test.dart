@@ -5,7 +5,7 @@ import 'package:weather_app/main.dart'; // Đảm bảo tên package là đúng
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp());
     // Đảm bảo tên lớp là đúng
 
     // Verify that our counter starts at 0.

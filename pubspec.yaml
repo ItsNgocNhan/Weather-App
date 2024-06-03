@@ -47,28 +47,25 @@ flutter:
     - assets/icons/13n@2x.png
     - assets/icons/50d@2x.png
     - assets/icons/50n@2x.png
-    - assets/icons/01d@2x.svg
-    - assets/icons/01n@2x.svg
-    - assets/icons/02d@2x.svg
-    - assets/icons/02n@2x.svg
-    - assets/icons/03d@2x.svg
-    - assets/icons/03n@2x.svg
-    - assets/icons/04d@2x.svg
-    - assets/icons/04d.svg
-    - assets/icons/04n@2x.svg
+    - assets/icons/01d.svg
+    - assets/icons/01n.svg
+    - assets/icons/02d.svg
+    - assets/icons/02n.svg
+    - assets/icons/03d.svg
+    - assets/icons/03n.svg
     - assets/icons/04n.svg
-    - assets/icons/09d@2x.svg
-    - assets/icons/09n@2x.svg
-    - assets/icons/10d@2x.svg
+    - assets/icons/04d.svg
+    - assets/icons/09d.svg
+    - assets/icons/09n.svg
     - assets/icons/10d.svg
-    - assets/icons/10n@2x.svg
     - assets/icons/10n.svg
-    - assets/icons/11d@2x.svg
-    - assets/icons/11n@2x.svg
-    - assets/icons/13d@2x.svg
-    - assets/icons/13n@2x.svg
-    - assets/icons/50d@2x.svg
-    - assets/icons/50n@2x.svg
+    - assets/icons/11d.svg
+    - assets/icons/11n.svg
+    - assets/icons/13d.svg
+    - assets/icons/13n.svg
+    - assets/icons/50d.svg
+    - assets/icons/50n.svg
     - assets/images/1111515.jpg
     - assets/images/ClearSky.jpg
     - assets/images/Cloudy.jpg
+

@@ -3,11 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-void main() => runApp(const MyApp());
+
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,23 +14,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const WeatherScreen(),
+      home: WeatherScreen(),
     );
   }
 }
 
 class WeatherScreen extends StatefulWidget {
-  const WeatherScreen({Key? key}) : super(key: key);
-
   @override
   _WeatherScreenState createState() => _WeatherScreenState();
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
-  String cityName = "Hà Nội";
+  String _city = "Hanoi, VietNam";
   Map<String, dynamic>? _weatherData;
   Map<String, dynamic>? _forecastData;
-  TextEditingController get _controller => TextEditingController();
+  TextEditingController _controller = TextEditingController();
   String _errorMessage = '';
   bool _isLoading = false;
 
@@ -49,7 +46,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
     try {
       final weatherResponse = await http.get(Uri.parse(
-          'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=16eb63d06395207cec65826fd72583b2&units=metric'));
+          'https://api.openweathermap.org/data/2.5/weather?q=$_city&appid=16eb63d06395207cec65826fd72583b2&units=metric&lang=vi'));
 
       if (weatherResponse.statusCode == 200) {
         final weatherData = json.decode(weatherResponse.body);
@@ -79,7 +76,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Future<void> _fetchForecast(double lat, double lon) async {
     try {
       final forecastResponse = await http.get(Uri.parse(
-          'https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=16eb63d06395207cec65826fd72583b2&units=metric'));
+          'https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=16eb63d06395207cec65826fd72583b2&units=metric&lang=vi'));
 
       if (forecastResponse.statusCode == 200) {
         setState(() {
@@ -100,23 +97,22 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   void _searchWeather() {
     setState(() {
-      cityName = _controller.text;
+      _city = _controller.text;
       _fetchWeather();
     });
   }
 
-
   String _getBackgroundImage() {
     if (_weatherData == null) return 'assets/images/1111515.jpg';
     String description = _weatherData!['weather'][0]['description'];
-    if (description.contains('rain')) {
+    if (description.contains('mưa')) {
       return 'assets/images/rain.jpg';
-    } else if (description.contains('cloud')) {
+    } else if (description.contains('mây')) {
       return 'assets/images/Cloudy.jpg';
-    } else if (description.contains('clear') || description.contains('clean')) {
+    } else if (description.contains('bầu trời quang đãng') || description.contains('vài đám mây')) {
       return 'assets/images/ClearSky.jpg';
     } else {
-      return 'assets/images/1111515.jpg';
+      return 'assets/images/default.jpg';
     }
   }
 
@@ -124,7 +120,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ứng dụng thời tiết'),
+        title: Text('Ứng dụng thời tiết'),
       ),
       body: Stack(
         children: [
@@ -132,12 +128,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(_getBackgroundImage()),
-                  fit: BoxFit.cover,
+                fit: BoxFit.cover,
               ),
             ),
           ),
           _isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : SingleChildScrollView(
             child: Column(
               children: [
@@ -145,18 +141,18 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: TextField(
                     controller: _controller,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search, color: Colors.white),
+                      prefixIcon: Icon(Icons.search, color: Colors.white),
                       labelText: 'Nhập tên thành phố',
-                      labelStyle: const TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: BorderSide(color: Colors.white),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: BorderSide(color: Colors.white),
                       ),
                     ),
                     onSubmitted: (_) => _searchWeather(),
@@ -167,7 +163,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     _errorMessage,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.red,
@@ -175,12 +171,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   ),
                 )
                     : _weatherData == null
-                    ? const Center(child: CircularProgressIndicator())
+                    ? Center(child: CircularProgressIndicator())
                     : Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      const Text(
+                      Text(
                         'Vị trí của tôi',
                         style: TextStyle(
                           fontSize: 20,
@@ -188,42 +184,42 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         ),
                       ),
                       Text(
-                        'TP. ${_weatherData!['name']}',
-                        style: const TextStyle(
+                        '${_weatherData!['name']}',
+                        style: TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
                       Text(
                         '${_weatherData!['main']['temp']}°C',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 64,
                           color: Colors.white,
                         ),
                       ),
                       Text(
                         '${(_weatherData!['main']['temp'] * 9 / 5 + 32).toStringAsFixed(1)}°F',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 64,
                           color: Colors.white,
                         ),
                       ),
                       Text(
                         '${_weatherData!['weather'][0]['description']}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           color: Colors.white,
                         ),
                       ),
                       Text(
-                        'C: ${_weatherData!['main']['temp_max']}° T: ${_weatherData!['main']['temp_min']}°',
-                        style: const TextStyle(
+                        'C: ${_weatherData!['main']['temp_min']}° T: ${_weatherData!['main']['temp_max']}°',
+                        style: TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      if (_forecastData == null) const CircularProgressIndicator() else Column(
+                      SizedBox(height: 16),
+                      if (_forecastData == null) CircularProgressIndicator() else Column(
                         children: [
                           Container(
                             padding: const EdgeInsets.all(16.0),
@@ -233,17 +229,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             ),
                             child: Column(
                               children: [
-                                const Text(
+                                Text(
                                   'Dự báo theo giờ',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: 16),
-                                SizedBox(
+                                SizedBox(height: 16),
+                                Container(
                                   height: 100,
-                                    child: ListView.builder(
+                                  child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: _forecastData!['list'].length,
                                     itemBuilder: (context, index) {
@@ -256,7 +252,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           children: [
                                             Text(
                                               formattedTime,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.white,
                                               ),
@@ -268,7 +264,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                             ),
                                             Text(
                                               '${hourlyData['main']['temp']}°',
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.white,
                                               ),
@@ -282,7 +278,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          // Dự báo 5 ngày
+                          SizedBox(height: 16),
                           Container(
                             padding: const EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
@@ -291,16 +288,16 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             ),
                             child: Column(
                               children: [
-                                const Text(
+                                Text(
                                   'Dự báo 5 ngày',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: 16),
-                                SizedBox(
-                                  height: 200,
+                                SizedBox(height: 16),
+                                Container(
+                                  height: 340,
                                   child: ListView.builder(
                                     itemCount: _forecastData!['list'].length ~/ 8,
                                     itemBuilder: (context, index) {
@@ -314,7 +311,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           children: [
                                             Text(
                                               formattedDate,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.white,
                                               ),
@@ -326,7 +323,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                             ),
                                             Text(
                                               '${dailyData['main']['temp_min']}° / ${dailyData['main']['temp_max']}°',
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.white,
                                               ),
@@ -334,6 +331,69 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           ],
                                         ),
                                       );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // ĐỘ ẨM và SỨC GIÓ
+                          SizedBox(height: 16),
+                          Container(
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              color: Colors.black38,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Độ ẩm và sức gió',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                Container(
+                                  height: 250,
+                                  child: ListView.builder(
+                                    itemCount: _forecastData!['list'].length,
+                                    itemBuilder: (context, index) {
+                                      var dailyData = _forecastData!['list'][index];
+                                      var date = DateTime.fromMillisecondsSinceEpoch(dailyData['dt'] * 1000);
+                                      var formattedTime = DateFormat('HH:mm a').format(date); // Định dạng thời gian ở đây
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                formattedTime,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Độ ẩm: ${dailyData['main']['humidity']}%',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Sức gió: ${dailyData['wind']['speed']} m/s',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
                                     },
                                   ),
                                 ),
