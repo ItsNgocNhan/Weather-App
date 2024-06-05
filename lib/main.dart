@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import "WeatherAnimation.dart";
 
 void main() => runApp(MyApp());
 
@@ -102,35 +103,33 @@ class _WeatherScreenState extends State<WeatherScreen> {
     });
   }
 
-  String _getBackgroundImage() {
-    if (_weatherData == null) return 'assets/images/1111515.jpg';
+  WeatherType _getWeatherType() {
+    if (_weatherData == null) return WeatherType.sunny; // Mặc định là nắng
     String description = _weatherData!['weather'][0]['description'];
     if (description.contains('mưa')) {
-      return 'assets/images/rain.jpg';
+      return WeatherType.rainy;
     } else if (description.contains('mây')) {
-      return 'assets/images/Cloudy.jpg';
+      return WeatherType.cloudy;
     } else if (description.contains('bầu trời quang đãng') || description.contains('vài đám mây')) {
-      return 'assets/images/ClearSky.jpg';
+      return WeatherType.sunny;
     } else {
-      return 'assets/images/default.jpg';
+      return WeatherType.sunny; // Hoặc bất kỳ loại thời tiết mặc định nào khác
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
+    WeatherType weatherType = _getWeatherType();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Ứng dụng thời tiết'),
       ),
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(_getBackgroundImage()),
-                fit: BoxFit.cover,
-              ),
-            ),
+          WeatherAnimation(
+            weatherType: weatherType,
           ),
           _isLoading
               ? Center(child: CircularProgressIndicator())
@@ -191,14 +190,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         ),
                       ),
                       Text(
-                        '${_weatherData!['main']['temp']}°C',
-                        style: TextStyle(
-                          fontSize: 64,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '${(_weatherData!['main']['temp'] * 9 / 5 + 32).toStringAsFixed(1)}°F',
+                        '${_weatherData!['main']['temp']}°C / ${(_weatherData!['main']['temp'] * 9 / 5 + 32).toStringAsFixed(1)}°F',
                         style: TextStyle(
                           fontSize: 64,
                           color: Colors.white,
@@ -303,7 +295,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     itemBuilder: (context, index) {
                                       var dailyData = _forecastData!['list'][index * 8];
                                       var date = DateTime.fromMillisecondsSinceEpoch(dailyData['dt'] * 1000);
-                                      var formattedDate = DateFormat('EEEE, MMM d').format(date);
+                                      var formattedDate = DateFormat('EEEE, M/d/y').format(date);
                                       return Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                                         child: Row(
@@ -362,21 +354,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     itemCount: _forecastData!['list'].length,
                                     itemBuilder: (context, index) {
                                       var dailyData = _forecastData!['list'][index];
-                                      var date = DateTime.fromMillisecondsSinceEpoch(dailyData['dt'] * 1000);
-                                      var formattedTime = DateFormat('HH:mm a').format(date); // Định dạng thời gian ở đây
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 8.0),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                formattedTime,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
                                               Text(
                                                 'Độ ẩm: ${dailyData['main']['humidity']}%',
                                                 style: TextStyle(
@@ -413,3 +396,4 @@ class _WeatherScreenState extends State<WeatherScreen> {
     );
   }
 }
+
