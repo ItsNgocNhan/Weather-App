@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Ứng dụng thời tiết',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -192,7 +193,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       Text(
                         '${_weatherData!['main']['temp']}°C / ${(_weatherData!['main']['temp'] * 9 / 5 + 32).toStringAsFixed(1)}°F',
                         style: TextStyle(
-                          fontSize: 64,
+                          fontSize: 60,
                           color: Colors.white,
                         ),
                       ),
