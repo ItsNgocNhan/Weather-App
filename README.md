@@ -21,16 +21,25 @@
 
 ## Cài Đặt
 Bước 1:
+```bash
 git clone https://github.com/ItsNgocNhan/Weather-App
 cd flutter-Weather-App
+```
 Bước 2:
+```bash
 flutter pub get
+```
 Bước 3:
+```bash
 Thêm API KEY trong trường hợp API KEY có sẵn bị hết hạn
+```
 Bước 4:
+```bash
 flutter run
+```
 
 ## Cấu Trúc Dự Án
+```bash
 flutter-weather-forecast/
 ├── android
 ├── assets
@@ -44,6 +53,7 @@ flutter-weather-forecast/
 │   ├── weather_animation.dart
 ├── pubspec.yaml
 └── README.md
+```
 
 ## Sử Dụng
 
@@ -65,4 +75,4 @@ Lottie: LottieFiles
 Weather API: OpenWeatherMap
 
 ## Liên Hệ
-Đối với mọi thắc mắc hoặc vấn đề, vui lòng liên hệ [vongocnhan1334@gmail.com].
+Đối với mọi thắc mắc hoặc vấn đề, vui lòng liên hệ vongocnhan1334@gmail.com
