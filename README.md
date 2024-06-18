@@ -62,17 +62,17 @@ Hình Ảnh Động Thời Tiết: Hiển thị các hình ảnh động khác n
 
 ## Đóng Góp
 Mọi đóng góp đều được hoan nghênh! Vui lòng làm theo các bước sau:
-
-Fork repository.
-Tạo một nhánh mới (git checkout -b feature/your-feature).
-Thực hiện các thay đổi và commit (git commit -m 'Add new feature').
-Đẩy lên nhánh (git push origin feature/your-feature).
-Tạo một Pull Request mới.
+```bash
+-1. Fork repository.
+-2. Tạo một nhánh mới (git checkout -b feature/your-feature).
+-3. Thực hiện các thay đổi và commit (git commit -m 'Add new feature').
+-4. Đẩy lên nhánh (git push origin feature/your-feature).
+-5. Tạo một Pull Request mới.
+```
 
 ## Lời Cảm Ơn
-Flutter: Flutter Dev
-Lottie: LottieFiles
-Weather API: OpenWeatherMap
+[![Flutter](https://flutter.dev/))
+[![Weather API: OpenWeatherMap](https://openweathermap.org/)))
 
 ## Liên Hệ
 Đối với mọi thắc mắc hoặc vấn đề, vui lòng liên hệ vongocnhan1334@gmail.com
