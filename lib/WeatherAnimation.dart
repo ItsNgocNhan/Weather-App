@@ -12,37 +12,23 @@ class WeatherAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: _getGradient(),
+        image: DecorationImage(
+          image: _getImage(),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
-
-  LinearGradient _getGradient() {
+  AssetImage _getImage() {
     switch (weatherType) {
       case WeatherType.sunny:
-        return LinearGradient(
-          colors: [Colors.orange, Colors.yellow],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        );
+        return AssetImage('assets/sunny.gif');
       case WeatherType.rainy:
-        return LinearGradient(
-          colors: [Colors.blueGrey, Colors.blue],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        );
+        return AssetImage('assets/rain.gif');
       case WeatherType.cloudy:
-        return LinearGradient(
-          colors: [Colors.grey, Colors.white],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        );
+        return AssetImage('assets/cloudy.gif');
       default:
-        return LinearGradient(
-          colors: [Colors.orange, Colors.yellow],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        );
+        return AssetImage('assets/default.gif');
     }
   }
 }

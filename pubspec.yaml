@@ -15,6 +15,7 @@ dependencies:
   intl: ^0.17.0
   flutter_svg: ^1.0.0
   flutter_lints: ^2.0.0
+  lottie: ^3.1.2
 
 
 dev_dependencies:
@@ -67,5 +68,9 @@ flutter:
     - assets/images/1111515.jpg
     - assets/images/ClearSky.jpg
     - assets/images/Cloudy.jpg
-    - assets/animation/rain.json
-    - assets/animation/cloud.json
+    - assets/animation/Sunny.json
+    - assets/animation/Rainy.json
+    - assets/animation/Cloudy.json
+    - assets/sunny.gif
+    - assets/cloudy.gif
+    - assets/rain.gif

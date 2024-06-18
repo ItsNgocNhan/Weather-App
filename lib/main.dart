@@ -124,9 +124,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
     WeatherType weatherType = _getWeatherType();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Ứng dụng thời tiết'),
-      ),
+      //appBar: AppBar(
+        //title: Text('Ứng dụng thời tiết'),
+      //),
       body: Stack(
         children: [
           WeatherAnimation(
@@ -193,7 +193,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       Text(
                         '${_weatherData!['main']['temp']}°C / ${(_weatherData!['main']['temp'] * 9 / 5 + 32).toStringAsFixed(1)}°F',
                         style: TextStyle(
-                          fontSize: 60,
+                          fontSize: 48,
                           color: Colors.white,
                         ),
                       ),
